@@ -16,9 +16,9 @@ GPFLAGS = -p -c
 PROJECT = schrodinger
 
 # Fichiers
-HDR = $(wildcard *.h)
-SRC = $(wildcard *.c)
-OBJ = $(SRC:.c=.o)
+HDR = $(wildcard src/*.h)
+SRC = $(wildcard src/*.c)
+OBJ = $(SRC:src/%.c=obj/%.o)
 BIN = ./$(PROJECT)
 DAT = $(PROJECT).dat
 GPI = $(PROJECT).gpi
@@ -27,13 +27,13 @@ IMG = $(PROJECT).png
 # 'clean' et 'reset' ne sont pas des noms de vrais fichiers
 .PHONY : clean reset
 
-## Dependances
+## Dépendances
 
 # Graphique gnuplot
 $(IMG) : $(GPI) $(DAT)
 	$(GP) $(GPFLAGS) $<
 
-# Fichier de donnees
+# Fichier de données
 $(DAT) : $(BIN)
 	$(BIN)
 
@@ -42,17 +42,17 @@ $(BIN) : $(OBJ)
 	$(LD) $^ $(LDFLAGS) -o $@
 
 # Compilation
-equadiff.o : equadiff.c equadiff.h consts.h
-	$(CC) $(CFLAGS) $< -o $@
-tir.o : tir.c equadiff.o equadiff.h consts.h
-	$(CC) $(CFLAGS) $< -o $@
-
-# Compilation : regle par default
-%.o : %.c
+obj/%.o : src/%.c src/equadiff.h src/consts.h
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $< -o $@
 
-# Regles de nettoyage
+# Compilation : règle par défaut
+obj/%.o : src/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $< -o $@
+
+# Règles de nettoyage
 clean :
-	rm -f $(OBJ)
+	rm -rf obj
 reset : clean
 	rm $(BIN) $(DAT) $(IMG)
