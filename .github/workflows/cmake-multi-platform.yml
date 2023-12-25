@@ -42,8 +42,12 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Install Gnuplot
+    - name: Install Gnuplot Linux
       run: sudo apt-get install gnuplot -y
+
+    - name: Install Gnuplot Windows
+      if: matrix.os == 'windows-latest'
+      run: choco install gnuplot -y
 
     - name: Build with Makefile
       run: make -C ${{ github.workspace }}/src -j4
