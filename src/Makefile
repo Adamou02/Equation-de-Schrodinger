@@ -1,5 +1,3 @@
-## Configuration
-
 # Compilateur
 CC = gcc -c
 CFLAGS = -Wall -pedantic
@@ -56,3 +54,9 @@ clean :
 	rm -f $(OBJ)
 reset : clean
 	rm $(BIN) $(DAT) $(IMG)
+
+test : $(BIN)
+	@echo "Running tests..."
+	./$(BIN) arg1 arg2 arg3
+	./$(BIN) -m 1.0 -l 20.0 -n 2
+	@echo "Tests completed."
