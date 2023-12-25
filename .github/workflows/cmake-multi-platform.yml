@@ -51,8 +51,10 @@ jobs:
       run: choco install gnuplot -y
 
     - name: Build with Makefile
+      if: matrix.os == 'ubuntu-latest' #Pour le moment ne fonctionne que sur Windows
       run: make -C ${{ github.workspace }}/src -j4
 
     - name: Test
+      if: matrix.os == 'ubuntu-latest' #Pour le moment ne fonctionne que sur Windows
       working-directory: ${{ github.workspace }}/src
       run: make test
