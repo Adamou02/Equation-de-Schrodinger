@@ -43,8 +43,8 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Build with Makefile
-      run: make -C ${{ github.workspace }} -j4 -f Makefile
+      run: make -C ${{ github.workspace }}/src -j4
 
     - name: Test
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/src
       run: make test
